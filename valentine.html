@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Question for you...</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Quicksand:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Smooth, moving gradient background */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(-45deg, #ff9a9e, #fecfef, #ffdde1, #fbc2eb);
+            background-size: 400% 400%;
+            animation: gradientBG 10s ease infinite;
+            font-family: 'Quicksand', sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism Card Container */
+        .card {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(255, 105, 135, 0.2);
+            max-width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Heartbeat animation for the images */
+        img {
+            width: 280px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            margin-bottom: 20px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            14% { transform: scale(1.05); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.05); }
+            70% { transform: scale(1); }
+        }
+
+        /* Romantic cursive font for headers */
+        h1 {
+            color: #d81b60;
+            font-family: 'Pacifico', cursive;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.7);
+            letter-spacing: 2px;
+        }
+
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+            position: relative;
+        }
+
+        /* Stylish 3D pill buttons */
+        button {
+            padding: 15px 40px;
+            font-size: 22px;
+            font-family: 'Quicksand', sans-serif;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #yesBtn {
+            background: linear-gradient(135deg, #42e695 0%, #3bb2b8 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(66, 230, 149, 0.4);
+        }
+
+        #yesBtn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(66, 230, 149, 0.6);
+        }
+
+        #yesBtn:active {
+            transform: translateY(1px);
+        }
+
+        #noBtn {
+            background: linear-gradient(135deg, #ff0844 0%, #ffb199 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(255, 8, 68, 0.4);
+            z-index: 100; 
+        }
+
+        #success-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Subtle glowing text on success */
+        .glow-text {
+            color: #ff0844;
+            text-shadow: 0 0 10px rgba(255, 8, 68, 0.3), 0 0 20px rgba(255, 8, 68, 0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card" id="ask-screen">
+        <img src="https://media.tenor.com/Z8fzZEZxCGQAAAAi/cat-crying.gif" alt="Pleading Cat">
+        <h1>Will you be my Valentine?</h1>
+        
+        <div class="buttons-container">
+            <button id="yesBtn">YES! 💖</button>
+            <button id="noBtn">No 💔</button>
+        </div>
+    </div>
+
+    <div class="card" id="success-screen">
+        <img src="https://media.tenor.com/gUiu1zyxfzYAAAAi/bear-kiss-bear-kisses.gif" alt="Happy Bears Kissing">
+        <h1 class="glow-text">Best decision ever!<br>I love you! ❤️</h1>
+    </div>
+
+    <script>
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const askScreen = document.getElementById('ask-screen');
+        const successScreen = document.getElementById('success-screen');
+
+        function dodgeButton() {
+            noBtn.style.position = 'fixed';
+            
+            // Adding a little padding so it doesn't go completely off-screen
+            const padding = 50; 
+            const maxX = window.innerWidth - noBtn.offsetWidth - padding;
+            const maxY = window.innerHeight - noBtn.offsetHeight - padding;
+            
+            const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+            
+            noBtn.style.left = randomX + 'px';
+            noBtn.style.top = randomY + 'px';
+        }
+
+        // Works on mouse hover and mobile tap
+        noBtn.addEventListener('mouseover', dodgeButton);
+        noBtn.addEventListener('touchstart', (e) => {
+            e.preventDefault(); 
+            dodgeButton();
+        });
+
+        yesBtn.addEventListener('click', () => {
+            askScreen.style.display = 'none';
+            successScreen.style.display = 'flex';
+        });
+    </script>
+
+</body>
+</html>
